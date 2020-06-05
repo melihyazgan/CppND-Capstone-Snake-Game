@@ -38,14 +38,21 @@ Renderer::~Renderer() {
   SDL_Quit();
 }
 
-void Renderer::Render(Snake const snake, SDL_Point const &food) {
+void Renderer::Render(Snake const snake, SDL_Point const &food,bool *wall, bool *poison) {
   SDL_Rect block;
   block.w = screen_width / grid_width;
   block.h = screen_height / grid_height;
 
-  // Clear screen
+// Clear screen
   SDL_SetRenderDrawColor(sdl_renderer, 0x1E, 0x1E, 0x1E, 0xFF);
   SDL_RenderClear(sdl_renderer);
+
+// Wall
+ if(*wall){
+    SDL_SetRenderDrawColor(sdl_renderer , 0x7E, 0x41, 0x1F, 0xFF);  // brown
+    SDL_Rect box = { 0 ,0 , 720 , 720}; // rectangle around the window
+    SDL_RenderDrawRect(sdl_renderer , &box);
+  }
 
   // Render food
   SDL_SetRenderDrawColor(sdl_renderer, 0xFF, 0xCC, 0x00, 0xFF);
@@ -53,8 +60,12 @@ void Renderer::Render(Snake const snake, SDL_Point const &food) {
   block.y = food.y * block.h;
   SDL_RenderFillRect(sdl_renderer, &block);
 
-  // Render snake's body
-  SDL_SetRenderDrawColor(sdl_renderer, 0xFF, 0xFF, 0xFF, 0xFF);
+  // Render snake's body - will be green if poisened
+  if(*poison){
+    SDL_SetRenderDrawColor(sdl_renderer, 0xBE, 0xD3, 0x3D, 0xFF); // greenish color
+  }else{
+  	SDL_SetRenderDrawColor(sdl_renderer, 0xFF, 0xFF, 0xFF, 0xFF);
+  }
   for (SDL_Point const &point : snake.body) {
     block.x = point.x * block.w;
     block.y = point.y * block.h;
@@ -77,5 +88,9 @@ void Renderer::Render(Snake const snake, SDL_Point const &food) {
 
 void Renderer::UpdateWindowTitle(int score, int fps) {
   std::string title{"Snake Score: " + std::to_string(score) + " FPS: " + std::to_string(fps)};
+  SDL_SetWindowTitle(sdl_window, title.c_str());
+}
+void Renderer::SetPause(){
+  std::string title{"[GAME PAUSED] press ESC to resume"};
   SDL_SetWindowTitle(sdl_window, title.c_str());
 }
