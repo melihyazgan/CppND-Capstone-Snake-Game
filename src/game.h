@@ -19,7 +19,7 @@ class Game {
   friend class Controller;
   
  protected:
-  bool _wall;
+  bool _gamewall;
   
  private:
   Snake snake;

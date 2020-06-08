@@ -2,12 +2,12 @@
 #include <cmath>
 #include <iostream>
 
-void Snake::Update(bool *wall) {
+void Snake::Update(bool *gamewall) {
   SDL_Point prev_cell{
       static_cast<int>(head_x),
       static_cast<int>(
           head_y)};  // We first capture the head's cell before updating.
-  UpdateHead(wall);
+  UpdateHead(gamewall);
   SDL_Point current_cell{
       static_cast<int>(head_x),
       static_cast<int>(head_y)};  // Capture the head's cell after updating.
@@ -19,7 +19,7 @@ void Snake::Update(bool *wall) {
   }
 }
 
-void Snake::UpdateHead(bool *wall) {
+void Snake::UpdateHead(bool *gamewall) {
   switch (direction) {
     case Direction::kUp:
       head_y -= speed;
@@ -37,7 +37,7 @@ void Snake::UpdateHead(bool *wall) {
       head_x += speed;
       break;
   }
-  if(*wall){
+  if(*gamewall){
     // check if snake hit the wall
     if(head_x > 36 || head_y > 36 || head_x < 0 || head_y < 0){
       alive =false;

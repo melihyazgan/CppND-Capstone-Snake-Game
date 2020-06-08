@@ -29,7 +29,7 @@ void Game::Run(Controller const &controller, Renderer *renderer,
     controller.HandleInput(running, snake, *this);
     // pass renderer's address
     Update(renderer);
-    renderer->Render(snake, food, &_wall, &_poison);
+    renderer->Render(snake, food, &_gamewall, &_poison);
 
     frame_end = SDL_GetTicks();
 
@@ -85,7 +85,7 @@ void Game::Update(Renderer *renderer) {
   if (!snake.alive) return;
 
   // send address of boolean _wall;
-  snake.Update(&_wall);
+  snake.Update(&_gamewall);
 
   int new_x = static_cast<int>(snake.head_x);
   int new_y = static_cast<int>(snake.head_y);

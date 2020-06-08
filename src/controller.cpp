@@ -49,7 +49,7 @@ void Controller::HandleInput(bool &running, Snake &snake, Game &game) const {
           break;
         // capture W key
         case SDLK_w:
-          game._wall ? game._wall = false : game._wall = true;
+          game._gamewall ? game._gamewall = false : game._gamewall = true;
       }
     }
   }

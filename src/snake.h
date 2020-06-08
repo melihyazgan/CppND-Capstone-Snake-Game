@@ -29,7 +29,7 @@ class Snake {
   std::vector<SDL_Point> body;
 
  private:
-  void UpdateHead(bool *wall);
+  void UpdateHead(bool *gamewall);
   void UpdateBody(SDL_Point &current_cell, SDL_Point &prev_cell);
 
   bool growing{false};
